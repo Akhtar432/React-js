@@ -1,5 +1,11 @@
 import React, { useState } from 'react';
 import { Tabs, Tab, Box } from '@mui/material';
+import Card from '@mui/material/Card';
+import CardActions from '@mui/material/CardActions';
+import CardContent from '@mui/material/CardContent';
+import CardMedia from '@mui/material/CardMedia';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
 
 const LeftSideTabs = () => {
   const [data, setData] = useState([]);
@@ -115,23 +121,30 @@ const LeftSideTabs = () => {
 
   // Function to delete a product
   const handleDeleteProduct = async () => {
-    setLoading(true);
-    setError(null);
-    try {
-      const response = await fetch('https://fakestoreapi.com/products/6', {
-        method: 'DELETE',
-      });
+    const userConfirmed = window.confirm('Are you sure you want to delete this product?');
+    if (userConfirmed) {
+      setLoading(true);
+      setError(null);
+      try {
+        const response = await fetch('https://fakestoreapi.com/products/6', {
+          method: 'DELETE',
+        });
 
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const result = await response.json();
+        console.log('Deleted Product:', result); // Log the deleted product response
+        alert('Product deleted successfully!'); // Success message
+      } catch (err) {
+        setError(err.message);
+        alert(`Error: ${err.message}`); // Error message
+      } finally {
+        setLoading(false);
       }
-
-      const result = await response.json();
-      console.log('Deleted Product:', result); // Log the deleted product response
-    } catch (err) {
-      setError(err.message);
-    } finally {
-      setLoading(false);
+    } else {
+      alert('Product deletion cancelled.');
     }
   };
 
@@ -162,7 +175,7 @@ const LeftSideTabs = () => {
       </Box>
 
       {/* Tab Content (Right-Side) */}
-      <Box className="w-3/4 bg-white rounded-r-md p-4 shadow-md">
+      <Box className="w-3/4 bg-white ">
         {/* Tab 1: Get All Products */}
         {activeTab === 0 && (
           <div className="text-gray-800 flex items-center flex-col">
@@ -177,21 +190,42 @@ const LeftSideTabs = () => {
               {loading && <p>Loading...</p>}
               {error && <p className="text-red-600">Error: {error}</p>}
               {showData && (
-                <ul>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 p-4">
                   {data.map((product) => (
-                    <li key={product.id}>
-                      <h2>{product.title}</h2>
-                      <p>${product.price}</p>
-                    </li>
+                    <Card key={product.id} sx={{ maxWidth: 345 }}> {/* Added key prop */}
+                      <CardMedia
+                        sx={{ height: 140 }}
+                        image={product.image}
+                        title={product.title}
+                      />
+                      <CardContent>
+                        <Typography gutterBottom variant="h5" component="div">
+                          {product.title}
+                        </Typography>
+                        <Typography gutterBottom variant="h5" component="div">
+                          <p>Prize${product.price}</p>
+                        </Typography>
+                        <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                          {product.description}
+                        </Typography>
+                      </CardContent>
+                      <CardActions>
+                        <Button onClick={handleDeleteProduct} className="text-red-800" size="small">
+                          Delete Product
+                        </Button>
+                        <Button onClick={handleUpdateProductPut} className="text-red-800" size="small">
+                          Update Product
+                        </Button>
+                      </CardActions>
+                    </Card>
                   ))}
-                </ul>
+                </div>
               )}
             </div>
           </div>
         )}
-
-        {/* Tab 2: Get a Single Product */}
-        {activeTab === 1 && (
+         {/* Tab 2: Get a Single Product */}
+         {activeTab === 1 && (
           <div className="text-gray-800 flex flex-col items-center">
             <h1 className="text-lg font-bold">Get a single product</h1>
             <div className="p-4">
@@ -206,10 +240,24 @@ const LeftSideTabs = () => {
               {error && <p className="text-red-600">Error: {error}</p>}
               {showSingleProduct && singleProduct && (
                 <div>
-                  <h2>{singleProduct.title}</h2>
-                  <p>${singleProduct.price}</p>
-                  <p>{singleProduct.description}</p>
-                  <img src={singleProduct.image} alt={singleProduct.title} className="w-32" />
+                  <Card key={singleProduct.id} sx={{ maxWidth: 345 }}> {/* Added key prop */}
+                      <CardMedia
+                        sx={{ height: 140 }}
+                        image={singleProduct.image}
+                        title={singleProduct.title}
+                      />
+                      <CardContent>
+                        <Typography gutterBottom variant="h5" component="div">
+                          <h2>{singleProduct.title}</h2>
+                        </Typography>
+                        <Typography gutterBottom variant="h5" component="div">
+                          {singleProduct.price}
+                        </Typography>
+                        <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                          {singleProduct.description}
+                        </Typography>
+                      </CardContent>
+                    </Card>
                 </div>
               )}
             </div>
@@ -222,13 +270,7 @@ const LeftSideTabs = () => {
             <h1 className="text-lg font-bold">Add new product</h1>
             <div className="p-4">
               <button onClick={handleAddNewProduct} className="bg-white border border-gray-500 text-gray-800 px-4 py-2 rounded-md hover:bg-gray-500 hover:text-white transition duration-300">
-                Add New Product0
-
-
-
-
-
-
+                Add New Product
               </button>
               {loading && <p>Loading...</p>}
               {error && <p className="text-red-600">Error: {error}</p>}
