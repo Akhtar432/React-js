@@ -1,0 +1,1 @@
+export const REACT_APP_WEATHER_ID = "d5edcce24789e807ef3b7277d554a40f";
