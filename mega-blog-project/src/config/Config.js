@@ -4,7 +4,6 @@ const config = {
     appwriteDatabaseId: String(process.env.REACT_APP_DATABASE_ID),
     appwriteCollectionId: String(process.env.REACT_APP_COLLECTION_ID),
     appwriteBucketId: String(process.env.REACT_APP_BUCKET_ID),
-    
 }
 
 export default config
