@@ -4,7 +4,7 @@ import Side_image from '../development-img.webp';
 function Home() {
   return (
     <>
-      <section className="flex flex-col md:flex-row justify-between items-center px-5 md:px-20 py-10 md:py-20 bg-gray-800 text-gray-100 space-y-10 md:space-y-0 mx-20">
+      <section className="flex flex-col md:flex-row justify-between items-center px-5 md:px-20 py-10 md:py-20 bg-gray-900 text-gray-100 space-y-10 md:space-y-0 mx-20">
         {/* Text Content */}
         <div className="flex-1 flex flex-col items-start space-y-4 md:pr-10 text-center md:text-left">
           <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold">

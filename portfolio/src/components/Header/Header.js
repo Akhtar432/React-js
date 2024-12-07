@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import User_Img from '../user-img.jpg';
+import { NavLink } from 'react-router-dom';
 
 function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -10,17 +11,16 @@ function Navbar() {
 
   return (
     <div>
-      <nav className="bg-gray-800 mt-3">
+      <nav className="bg-gray-900 p-4">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex h-16 items-center justify-between">
-            {/* Logo or Brand */}
+  
             <div className="flex-shrink-0">
-              <a href="/" className="text-white text-lg font-semibold">
+              <h1 className="text-white text-lg font-semibold">
                 Portfolio
-              </a>
+              </h1>
             </div>
 
-            {/* Mobile menu button */}
             <div className="flex items-center sm:hidden">
               <button
                 onClick={toggleMobileMenu}
@@ -63,35 +63,34 @@ function Navbar() {
               </button>
             </div>
 
-            {/* Desktop menu */}
             <div className="hidden sm:flex sm:space-x-4">
-              <a
-                href="/"
-                className="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
-              >
+              <NavLink
+                to="/"
+                className={({isActive})=>`rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 duration-200 ${isActive? " text-orange-600" : "text-gray-300"}`
+              }              >
                 Home
-              </a>
-              <a
-                href="/skills"
-                className="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
+              </NavLink>
+              <NavLink
+                to="/skills"
+                className={({isActive})=>`rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 duration-200 ${isActive? " text-orange-600" : "text-gray-300"}`
+                }
               >
                 Skills
-              </a>
-              <a
-                href="/projects"
-                className="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
-              >
+              </NavLink>
+              <NavLink
+                to="/projects"
+                className={({isActive})=>`rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 duration-200 ${isActive? " text-orange-600" : "text-gray-300"}`
+              }              >
                 Projects
-              </a>
-              <a
-                href="/experience"
-                className="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
-              >
+              </NavLink>
+              <NavLink
+                to="/experience"
+                className={({isActive})=>`rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 duration-200 ${isActive? " text-orange-600" : "text-gray-300"}`
+              }              >
                 Experience
-              </a>
+              </NavLink>
             </div>
 
-            {/* User profile */}
             <div className="hidden sm:flex items-center space-x-4">
               <button
                 className="rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
@@ -117,34 +116,33 @@ function Navbar() {
           </div>
         </div>
 
-        {/* Mobile menu */}
         {isMobileMenuOpen && (
           <div className="sm:hidden" id="mobile-menu">
             <div className="space-y-1 px-2 pt-2 pb-3">
-              <a
-                href="/"
-                className="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
-              >
+              <NavLink
+                to="/"
+                className={({isActive})=>`rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 duration-200 ${isActive? " text-orange-600" : "text-gray-300"}`
+              }              >
                 Home
-              </a>
-              <a
-                href="/skills"
-                className="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
-              >
+              </NavLink>
+              <NavLink
+                to="/skills"
+                className={({isActive})=>`rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 duration-200 ${isActive? " text-orange-600" : "text-gray-300"}`
+              }              >
                 Skills
-              </a>
-              <a
-                href="/projects"
-                className="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
-              >
+              </NavLink>
+              <NavLink
+                to="/projects"
+                className={({isActive})=>`rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 duration-200 ${isActive? " text-orange-600" : "text-gray-300"}`
+              }              >
                 Projects
-              </a>
-              <a
-                href="/experience"
-                className="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
-              >
+              </NavLink>
+              <NavLink
+                to="/experience"
+                className={({isActive})=>`rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 duration-200 ${isActive? " text-orange-600" : "text-gray-300"}`
+              }              >
                 Experience
-              </a>
+              </NavLink>
             </div>
           </div>
         )}
