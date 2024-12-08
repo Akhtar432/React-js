@@ -71,11 +71,11 @@ function Navbar() {
                 Home
               </NavLink>
               <NavLink
-                to="/skills"
+                to="/about"
                 className={({isActive})=>`rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 duration-200 ${isActive? " text-orange-600" : "text-gray-300"}`
                 }
               >
-                Skills
+                About
               </NavLink>
               <NavLink
                 to="/projects"
@@ -126,10 +126,10 @@ function Navbar() {
                 Home
               </NavLink>
               <NavLink
-                to="/skills"
+                to="/about"
                 className={({isActive})=>`rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 duration-200 ${isActive? " text-orange-600" : "text-gray-300"}`
               }              >
-                Skills
+                About
               </NavLink>
               <NavLink
                 to="/projects"

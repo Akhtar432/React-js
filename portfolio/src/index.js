@@ -5,7 +5,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Home from './components/Home/Home';
-import Skills from './components/Content/Skills';
+import About from './components/Content/About';
 import Projects from './components/Content/Projects';
 import Experience from './components/Content/Experience'; // Corrected typo in "Experience"
 
@@ -20,8 +20,8 @@ const router = createBrowserRouter([
         element: <Home />,
       },
       {
-        path: 'skills',
-        element: <Skills />,
+        path: 'about',
+        element: <About />,
       },
       {
         path: 'projects',
