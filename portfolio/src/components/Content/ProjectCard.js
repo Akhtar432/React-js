@@ -1,23 +1,38 @@
-import React from 'react'
-import bannerImg from './Assets/skillimg.png'
-function ProjectCard({ title, main }) {
-  return (
-    <div className="p-3 md:p-6 flex flex-col w-80 bg-[#0c0e19] shadow-xl shadow-slate-900 rounded-2xl">
-      <img className="p-4" src={bannerImg} alt="" />
-      <h3 className="px-4 text-xl md:text-2xl font-bold leading-normal">
-        {title}
-      </h3>
-      <p className="px-4 text-sm md:text-md leading-tight py-2">{main}</p>
-      <div className="mt-2 p-2 md:p-4 flex gap-2 md:gap-4">
-        <button className="md:mt-10 text-white py-2 px-3 text-sm md:text-lg md:py-2 md:px-4 hover:opacity-85 duration-300 hover:scale-105 font-semibold rounded-3xl bg-[#465697]">
-          Demo
-        </button>
-        <button className="md:mt-10 text-white py-2 px-3 text-sm md:text-lg md:py-2 md:px-4 hover:opacity-85 duration-300 hover:scale-105 font-semibold rounded-3xl bg-[#465697]">
-          Source Code
-        </button>
-      </div>
-    </div>
-  )
-}
+import * as React from 'react';
+import Card from '@mui/material/Card';
+import CardActions from '@mui/material/CardActions';
+import CardContent from '@mui/material/CardContent';
+import CardMedia from '@mui/material/CardMedia';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
 
-export default ProjectCard
+export default function ProjectCard({ title, main, image, href }) {
+  return (
+    <div className="flex justify-center items-center sm:flex-col sm:ml-0 lg:ml-20">
+      <Card sx={{ maxWidth: 345 }}>
+        <CardMedia
+          component="img"
+          alt="project_img"
+          image={image}
+          className="h-36 w-20"
+        />
+        <CardContent className="bg-gray-900 text-gray-100">
+          <Typography gutterBottom variant="h5" component="div">
+            {title}
+          </Typography>
+          <Typography variant="body2" sx={{ color: 'text.white' }}>
+            {main}
+          </Typography>
+        </CardContent>
+        <CardActions className="bg-gray-900">
+          <Button size="small">
+            <a 
+            target='_blank'
+            rel="noopener noreferrer"
+            href={href}>Source Link</a>
+            </Button>
+        </CardActions>
+      </Card>
+    </div>
+  );
+}

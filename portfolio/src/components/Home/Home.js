@@ -11,7 +11,7 @@ function Home() {
             Hello, I am Akhtar
           </h1>
           <p className="text-sm sm:text-base md:text-lg tracking-tight leading-relaxed">
-            I am a passionate full-stack developer skilled in crafting dynamic web applications using MERN Stack. I specialize in building responsive, user-centric solutions with seamless frontend-backend integration.
+            I am a passionate Full-Stack Developer skilled in crafting dynamic web applications using MERN Stack. I specialize in building responsive, user-centric solutions with seamless frontend-backend integration.
           </p>
         </div>
 

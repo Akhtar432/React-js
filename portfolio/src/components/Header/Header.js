@@ -11,13 +11,13 @@ function Navbar() {
 
   return (
     <div>
-      <nav className="bg-gray-900 p-4">
+      <nav className=" bg-gray-900 p-4 ">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex h-16 items-center justify-between">
   
             <div className="flex-shrink-0">
               <h1 className="text-white text-lg font-semibold">
-                Portfolio
+                Intezar's Portfolio
               </h1>
             </div>
 
@@ -118,7 +118,7 @@ function Navbar() {
 
         {isMobileMenuOpen && (
           <div className="sm:hidden" id="mobile-menu">
-            <div className="space-y-1 px-2 pt-2 pb-3">
+            <div className="flex flex-col items-center space-y-2 px-2 pt-2 pb-3">
               <NavLink
                 to="/"
                 className={({isActive})=>`rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 duration-200 ${isActive? " text-orange-600" : "text-gray-300"}`
