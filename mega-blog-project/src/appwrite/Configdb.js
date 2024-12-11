@@ -11,7 +11,7 @@ export class Service{
             .setEndpoint(config.appwriteUrl)
             .setProject(config.appwriteProjectId);
         this.database = new Databases(this.client);
-        this. bucket = new Storage(this.client);
+        this.bucket = new Storage(this.client);
     }
     async createPost({title, slug, content, featuredImage, status, userId}){
         try{

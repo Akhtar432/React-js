@@ -3,39 +3,26 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { createHashRouter, RouterProvider } from 'react-router-dom';
 import Home from './components/Home/Home';
 import About from './components/Content/About';
 import Projects from './components/Content/Projects';
-import Experience from './components/Content/Experience'; // Corrected typo in "Experience"
+import Experience from './components/Content/Experience';
 
-// Define the routes using `createBrowserRouter`
-const router = createBrowserRouter([
+const router = createHashRouter([
   {
     path: '/',
     element: <App />,
     children: [
-      {
-        path: '', // Default child route
-        element: <Home />,
-      },
-      {
-        path: 'about',
-        element: <About />,
-      },
-      {
-        path: 'projects',
-        element: <Projects />,
-      },
-      {
-        path: 'experience', // Updated path to match the corrected component name
-        element: <Experience />,
-      },
+      { path: '', element: <Home /> },
+      { path: 'about', element: <About /> },
+      { path: 'projects', element: <Projects /> },
+      { path: 'experience', element: <Experience /> },
+      { path: '*', element: <h1>404 - Page Not Found</h1> }, // Optional
     ],
   },
 ]);
 
-// Render the router using `RouterProvider`
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
@@ -43,5 +30,4 @@ root.render(
   </React.StrictMode>
 );
 
-// Optional performance monitoring
 reportWebVitals();
