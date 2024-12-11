@@ -1,4 +1,5 @@
 import React from 'react'
+import About_img from'./about-img.jpg'
 
 function About() {
     return (
@@ -7,7 +8,7 @@ function About() {
                 <div className="space-y-6 md:space-y-0 md:flex md:gap-6 lg:items-center lg:gap-12">
                     <div className="md:5/12 lg:w-5/12">
                         <img
-                            src="https://tailus.io/sources/blocks/left-image/preview/images/startup.png"
+                            src={About_img}
                             alt="about-image"
                         />
                     </div>
