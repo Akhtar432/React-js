@@ -1,20 +1,21 @@
+const express = require('express');
+const router = express.Router();
 const ensureAuthenticated = require('../Middlewares/AuthProduct');
-const router = require('express').Router();
+const productController = require('../Controllers/ProductController');
 
-router.get('/', ensureAuthenticated, (req, res) => {
-    console.log('---- Logged in user detail ---', req.user);
+// Get all products
+router.get('/', ensureAuthenticated, productController.Get_All_Products);
 
-    const products = [
-        { name: "mobile", price: 10000 },
-        { name: "tv", price: 20000 },
-    ];
+// Create a new product
+router.post('/', ensureAuthenticated, productController.Create_New_Product);
 
-    res.status(200).json({
-        success: true,
-        message: "Products fetched successfully",
-        user: req.user, // Optionally include user info
-        data: products,
-    });
-});
+// Get a specific product by ID
+router.get('/:productId', ensureAuthenticated, productController.Specific_Show_Product);
+
+// Update a product by ID
+router.patch('/:productId', ensureAuthenticated, productController.Update_Product);
+
+// Delete a product by ID
+router.delete('/:productId', ensureAuthenticated, productController.Delete_Product);
 
 module.exports = router;

@@ -54,46 +54,65 @@ function Signup() {
         }
     }
     return (
-        <div className='container'>
-            <h1>Signup</h1>
-            <form onSubmit={handleSignup}>
-                <div>
-                    <label htmlFor='name'>Name</label>
-                    <input
-                        onChange={handleChange}
-                        type='text'
-                        name='name'
-                        autoFocus
-                        placeholder='Enter your name...'
-                        value={signupInfo.name}
-                    />
-                </div>
-                <div>
-                    <label htmlFor='email'>Email</label>
-                    <input
-                        onChange={handleChange}
-                        type='email'
-                        name='email'
-                        placeholder='Enter your email...'
-                        value={signupInfo.email}
-                    />
-                </div>
-                <div>
-                    <label htmlFor='password'>Password</label>
-                    <input
-                        onChange={handleChange}
-                        type='password'
-                        name='password'
-                        placeholder='Enter your password...'
-                        value={signupInfo.password}
-                    />
-                </div>
-                <button type='submit'>Signup</button>
-                <span>Already have an account ?
-                    <Link to="/login">Login</Link>
-                </span>
-            </form>
-            <ToastContainer />
+        <div className="flex items-center justify-center min-h-screen bg-gray-700">
+            <div className="bg-white p-8 rounded-2xl shadow-lg w-96">
+                <h1 className="text-2xl font-bold text-center text-gray-700 mb-6">Signup</h1>
+                <form onSubmit={handleSignup} className="space-y-4">
+                    <div>
+                        <label htmlFor="name" className="block text-gray-600 font-medium">
+                            Name
+                        </label>
+                        <input
+                            onChange={handleChange}
+                            type="text"
+                            name="name"
+                            autoFocus
+                            placeholder="Enter your name..."
+                            value={signupInfo.name}
+                            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+                        />
+                    </div>
+                    <div>
+                        <label htmlFor="email" className="block text-gray-600 font-medium">
+                            Email
+                        </label>
+                        <input
+                            onChange={handleChange}
+                            type="email"
+                            name="email"
+                            placeholder="Enter your email..."
+                            value={signupInfo.email}
+                            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+                        />
+                    </div>
+                    <div>
+                        <label htmlFor="password" className="block text-gray-600 font-medium">
+                            Password
+                        </label>
+                        <input
+                            onChange={handleChange}
+                            type="password"
+                            name="password"
+                            placeholder="Enter your password..."
+                            value={signupInfo.password}
+                            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+                        />
+                    </div>
+                    <button
+                        type="submit"
+                        className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 rounded-lg transition duration-200"
+                    >
+                        Signup
+                    </button>
+                    <span className="block text-center text-gray-600 mt-2">
+                        Already have an account?{" "}
+                        <Link to="/login" className="text-blue-600 hover:underline">
+                            Login
+                        </Link>
+                    </span>
+                </form>
+                <ToastContainer />
+            </div>
         </div>
     )
 }
