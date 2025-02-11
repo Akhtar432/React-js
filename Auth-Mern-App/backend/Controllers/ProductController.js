@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 // Get all products
 exports.Get_All_Products = (req, res, next) => {
     Product.find()
-        .select("name price productImage") // Include only the necessary fields
+        .select("name price productImage")
         .exec()
         .then(docs => {
             const response = {
@@ -16,7 +16,7 @@ exports.Get_All_Products = (req, res, next) => {
                     _id: doc._id,
                     request: {
                         type: 'GET',
-                        url: 'http://localhost:7070/products/' + doc._id
+                        url: 'http://localhost:8080/products/' + doc._id
                     }
                 }))
             };
@@ -49,7 +49,7 @@ exports.Create_New_Product = (req, res, next) => {
                     productImage: result.productImage,
                     request: {
                         type: 'GET',
-                        url: 'http://localhost:7070/products/' + result._id
+                        url: 'http://localhost:8080/products/' + result._id
                     }
                 }
             });
@@ -74,7 +74,7 @@ exports.Specific_Show_Product = (req, res, next) => {
                     product: doc,
                     request: {
                         type: 'GET',
-                        url: 'http://localhost:7070/products/'
+                        url: 'http://localhost:8080/products/'
                     }
                 });
             } else {
@@ -105,7 +105,7 @@ exports.Update_Product = (req, res, next) => {
                 message: 'Product updated',
                 request: {
                     type: 'GET',
-                    url: 'http://localhost:7070/products/' + id
+                    url: 'http://localhost:8080/products/' + id
                 }
             });
         })
@@ -129,7 +129,7 @@ exports.Delete_Product = (req, res, next) => {
                     message: 'Product deleted successfully',
                     request: {
                         type: 'POST',
-                        url: 'http://localhost:7070/products/',
+                        url: 'http://localhost:8080/products/',
                         body: { name: 'String', price: 'Number' }
                     }
                 });

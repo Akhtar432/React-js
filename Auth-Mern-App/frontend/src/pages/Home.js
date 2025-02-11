@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { handleError, handleSuccess } from "../utils";
+import {handleSuccess } from "../utils";
 import { ToastContainer } from "react-toastify";
-import axios from "axios";
+import AddProductModal from "../modal/AddProductModal"; // Import your modal
+import ProductPage from "./Product";
 
 function Home() {
     const [loggedInUser, setLoggedInUser] = useState("");
-    const [products, setProducts] = useState([]);
     const [openDropdown, setOpenDropdown] = useState(null);
+    const [isModalOpen, setIsModalOpen] = useState(false);  // State for modal visibility
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -24,34 +25,20 @@ function Home() {
         }, 1000);
     };
 
-    const fetchProducts = async () => {
-        const token = localStorage.getItem("token");
-
-        if (!token) {
-            handleError("Authorization token is missing.");
-            return;
-        }
-
-        try {
-            const response = await axios.get("http://localhost:8080/products", {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            });
-            setProducts(response.data);
-        } catch (error) {
-            handleError(error.response?.data?.message || "Failed to fetch products.");
-        }
-    };
-
-    useEffect(() => {
-        fetchProducts();
-    }, []);
-
     const categorySubCategories = {
         Men: ["Shirts", "Jeans", "Jackets"],
         Women: ["Tops", "Dresses", "Skirts"],
         Kids: ["Toys", "Clothing", "Footwear"],
+    };
+
+    // Function to open the modal
+    const handleAddProductClick = () => {
+        setIsModalOpen(true); // Open modal
+    };
+
+    // Function to close the modal
+    const handleCloseModal = () => {
+        setIsModalOpen(false); // Close modal
     };
 
     return (
@@ -97,27 +84,20 @@ function Home() {
                     </button>
                 </div>
             </div>
-
-            {/* Products Section */}
-            <div className="container mx-auto mt-2 p-6 bg-white shadow-lg rounded-lg">
-                {products?.data?.length > 0 ? (
-                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                        {products.data.map((item, index) => (
-                            <div
-                                key={index}
-                                className="border p-4 rounded-lg shadow-md bg-gray-50 hover:shadow-lg transition"
-                            >
-                                <h3 className="font-semibold text-gray-800">{item.name}</h3>
-                                <p className="text-gray-600">${item.price}</p>
-                            </div>
-                        ))}
-                    </div>
-                ) : (
-                    <p className="text-center text-gray-500">No products available</p>
-                )}
+            <ProductPage/>
+            <ToastContainer />
+            {/* Add Product Button */}
+            <div className="fixed bottom-4 right-4">
+                <button
+                    onClick={handleAddProductClick}
+                    className="bg-green-600 text-white p-4 rounded-full shadow-lg hover:bg-green-700 transition"
+                >
+                    + Add Product
+                </button>
             </div>
 
-            <ToastContainer />
+            {/* Add Product Modal */}
+            {isModalOpen && <AddProductModal onClose={handleCloseModal} />}
         </div>
     );
 }
