@@ -25,25 +25,39 @@ function ProductPage() {
                     "Content-Type": "application/json"
                 },
             });
-            setProducts(response.data);
+
+            console.log(response.data);
+            setProducts(response.data.products); // Corrected state update
+
         } catch (error) {
             handleError(error.response?.data?.message || "Failed to fetch products.");
         }
     };
 
     return (
-        <div className="container mx-auto mt-4 p-6 bg-white shadow-lg rounded-lg">
+        <div className="mt-2 p-6 bg-white shadow-lg rounded-lg">
             <h2 className="text-2xl font-bold mb-4">Products</h2>
-            {products?.data?.length > 0 ? (
+            {products.length > 0 ? (
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                    {products.data.map((item, index) => (
+                    {products.map((item, index) => (
                         <div key={index} className="border p-4 rounded-lg shadow-md bg-gray-50 hover:shadow-lg transition">
-                            <img src={item.image} alt={item.name} className="w-full h-40 object-cover rounded-md" />
+                            <img
+                                src={ `http://localhost:8080/${item.productImage}`}
+                                alt={item.name}
+                                className="w-full h-40 object-cover rounded-md"
+                            />
+
                             <h3 className="font-semibold text-gray-800 mt-2">{item.name}</h3>
-                            <p className="text-gray-600">${item.price}</p>
+                            <p className="text-gray-600">{item.price}</p>
+                            <p className="text-gray-600">{item.description}</p>
+                            <div className="flex justify-center gap-4">
                             <button className="mt-2 bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition">
                                 Add to Cart
                             </button>
+                            <button className="mt-2 bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition">
+                                Update
+                            </button>
+                            </div>
                         </div>
                     ))}
                 </div>
@@ -55,4 +69,4 @@ function ProductPage() {
     );
 }
 
-export default ProductPage
+export default ProductPage;

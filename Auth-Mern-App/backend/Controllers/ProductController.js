@@ -4,16 +4,17 @@ const mongoose = require('mongoose');
 // Get all products
 exports.Get_All_Products = (req, res, next) => {
     Product.find()
-        .select("name price productImage")
+        .select("name price productImage description")
         .exec()
         .then(docs => {
             const response = {
                 count: docs.length,
                 products: docs.map(doc => ({
+                    _id: doc._id,
                     name: doc.name,
                     price: doc.price,
                     productImage: doc.productImage,
-                    _id: doc._id,
+                    description: doc.description,
                     request: {
                         type: 'GET',
                         url: 'http://localhost:8080/products/' + doc._id
@@ -31,42 +32,48 @@ exports.Get_All_Products = (req, res, next) => {
 };
 
 // Create a new product
-exports.Create_New_Product = (req, res, next) => {
-    const product = new Product({
-        _id: new mongoose.Types.ObjectId(),
-        name: req.body.name,
-        price: req.body.price,
-        productImage: req.file ? req.file.path : null // Handle image file
-    });
+exports.Create_New_Product = async (req, res) => {
+    try {
+        console.log("Incoming Request Body:", req.body);
+        console.log("Uploaded File:", req.file);
 
-    product.save()
-        .then(result => {
-            res.status(201).json({
-                message: 'Product created successfully',
-                createdProduct: {
-                    name: result.name,
-                    price: result.price,
-                    productImage: result.productImage,
-                    request: {
-                        type: 'GET',
-                        url: 'http://localhost:8080/products/' + result._id
-                    }
-                }
-            });
-        })
-        .catch(err => {
-            console.error(err);
-            res.status(500).json({
-                error: err.message,
-            });
+        // Create a new product instance
+        const product = new Product({
+            _id: new mongoose.Types.ObjectId(),
+            name: req.body.name,
+            price: req.body.price,
+            description: req.body.description,
+            productImage: req.file ? req.file.path : null,
         });
-};
 
+        // Save the product
+        const savedProduct = await product.save();
+
+        // Send response
+        res.status(201).json({
+            message: "Product created successfully",
+            createdProduct: {
+                id: savedProduct._id,
+                name: savedProduct.name,
+                price: savedProduct.price,
+                description: savedProduct.description,
+                productImage: savedProduct.productImage,
+                request: {
+                    type: "GET",
+                    url: `http://localhost:8080/products/${savedProduct._id}`
+                }
+            }
+        });
+    } catch (error) {
+        console.error("Error Creating Product:", error.message);
+        res.status(500).json({ error: error.message });
+    }
+};
 // Get a specific product by ID
 exports.Specific_Show_Product = (req, res, next) => {
     const id = req.params.productId;
     Product.findById(id)
-        .select('name price productImage')
+        .select('name price productImage description')
         .exec()
         .then(doc => {
             if (doc) {
@@ -93,7 +100,7 @@ exports.Update_Product = (req, res, next) => {
     const updateOps = {};
 
     for (const prop in req.body) {
-        if (req.body.hasOwnProperty(prop)) {
+        if (Object.prototype.hasOwnProperty.call(req.body, prop)) {
             updateOps[prop] = req.body[prop];
         }
     }
@@ -102,10 +109,10 @@ exports.Update_Product = (req, res, next) => {
         .exec()
         .then(result => {
             res.status(200).json({
-                message: 'Product updated',
+                message: 'Product updated successfully',
                 request: {
                     type: 'GET',
-                    url: 'http://localhost:8080/products/' + id
+                    url: `http://localhost:8080/products/${id}`
                 }
             });
         })
@@ -116,6 +123,7 @@ exports.Update_Product = (req, res, next) => {
             });
         });
 };
+
 
 // Delete a product by ID
 exports.Delete_Product = (req, res, next) => {

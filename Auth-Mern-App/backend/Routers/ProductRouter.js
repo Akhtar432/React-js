@@ -9,46 +9,69 @@ const productController = require("../Controllers/ProductController");
 // Ensure 'uploads' folder exists
 const uploadDir = "uploads";
 if (!fs.existsSync(uploadDir)) {
-  fs.mkdirSync(uploadDir);
+  fs.mkdirSync(uploadDir, { recursive: true });
 }
 
-// Multer storage configuration for image upload
+// Multer Storage Configuration (Only Images)
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, uploadDir); // Save files to 'uploads' folder
+    cb(null, uploadDir);
   },
   filename: (req, file, cb) => {
-    cb(null, `${Date.now()}-${file.originalname}`);
+    const uniqueName =
+      new Date().toISOString().replace(/:/g, "-") + path.extname(file.originalname);
+    cb(null, uniqueName);
   },
 });
 
+// File Filter: Allow only JPEG & PNG
+const fileFilter = (req, file, cb) => {
+  const allowedMimeTypes = ["image/jpeg", "image/png"];
+  if (allowedMimeTypes.includes(file.mimetype)) {
+    cb(null, true);
+  } else {
+    cb(new Error("Only JPEG and PNG images are allowed"), false);
+  }
+};
+
+// Multer Upload Configuration
 const upload = multer({
   storage,
   limits: { fileSize: 5 * 1024 * 1024 }, // 5MB file size limit
-  fileFilter: (req, file, cb) => {
-    const allowedTypes = /jpeg|jpg|png/;
-    const extname = allowedTypes.test(path.extname(file.originalname).toLowerCase());
-    const mimetype = allowedTypes.test(file.mimetype);
-
-    if (extname && mimetype) {
-      return cb(null, true);
-    } else {
-      cb(new Error("Only JPEG, JPG, and PNG files are allowed"));
-    }
-  },
+  fileFilter,
 });
+
+// Middleware to Handle Multer Errors
+const handleMulterError = (err, req, res, next) => {
+  if (err instanceof multer.MulterError || err.message.includes("Only JPEG and PNG")) {
+    return res.status(400).json({ message: err.message });
+  }
+  next();
+};
 
 // Get all products
 router.get("/", ensureAuthenticated, productController.Get_All_Products);
 
 // Create a new product with image upload
-router.post("/", ensureAuthenticated, upload.single("image"), productController.Create_New_Product);
+router.post(
+  "/",
+  ensureAuthenticated,
+  upload.single("productImage"),
+  handleMulterError,
+  productController.Create_New_Product
+);
 
 // Get a specific product by ID
 router.get("/:productId", ensureAuthenticated, productController.Specific_Show_Product);
 
 // Update a product by ID with image upload
-router.patch("/:productId", ensureAuthenticated, upload.single("image"), productController.Update_Product);
+router.patch(
+  "/:productId",
+  ensureAuthenticated,
+  upload.single("productImage"),
+  handleMulterError,
+  productController.Update_Product
+);
 
 // Delete a product by ID
 router.delete("/:productId", ensureAuthenticated, productController.Delete_Product);

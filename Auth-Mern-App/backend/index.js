@@ -1,31 +1,45 @@
 const express = require("express");
-const app = express();
-const bodyParser = require("body-parser");
-const cors = require("cors");
 const dotenv = require("dotenv");
+const cors = require("cors");
+const fs = require("fs");
+
+dotenv.config();
+
+const app = express();
 
 const AuthRouter = require("./Routers/AuthRouter");
 const ProductRouter = require("./Routers/ProductRouter");
-const UploadRouter = require("./Routers/UploadRouter"); // Import Upload Router
 
 require("./Models/db");
-dotenv.config();
 
 const PORT = process.env.PORT || 8080;
+
+// Ensure 'uploads' folder exists
+const uploadDir = "uploads";
+if (!fs.existsSync(uploadDir)) {
+  fs.mkdirSync(uploadDir, { recursive: true });
+}
 
 app.get("/ping", (req, res) => {
   res.send("PONG");
 });
 
-app.use(bodyParser.json());
+app.use(express.json());
 app.use(cors());
+
+// Routes
 app.use("/auth", AuthRouter);
 app.use("/products", ProductRouter);
-app.use("/upload", UploadRouter); // Register Upload Router
 
 // Serve uploaded files statically
-app.use("/uploads", express.static("uploads"));
+app.use("/uploads", express.static(uploadDir));
+
+// Global error handler
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ message: "Something went wrong!", error: err.message });
+});
 
 app.listen(PORT, () => {
-  console.log(`Server is running on ${PORT}`);
+  console.log(`Server is running on http://localhost:${PORT}`);
 });
